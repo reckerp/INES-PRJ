@@ -1,0 +1,2 @@
+# Final Project INES at Fontys Venlo
+This repository holds the code and resources for your final project in the Introduction to Embedded Systems (INES) course at Fontys Venlo.  This project is an opportunity to showcase your understanding of the concepts and skills learned throughout the course by applying them to a practical application.
