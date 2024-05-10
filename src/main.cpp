@@ -1,18 +1,16 @@
 #include <Arduino.h>
-
-// put function declarations here:
-int myFunction(int, int);
+#include "Heartbeat.h"
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  xTaskCreate(
+    heartbeat,   /* Task function. */
+    "heartbeat", /* String with name of task. */
+    2000,
+    (void *)NULL,
+    1,
+    NULL
+  );
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
 }
