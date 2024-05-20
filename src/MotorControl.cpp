@@ -92,6 +92,12 @@ void motorcontrol_set_direction(MotorControlState *state) {
 }
 
 void motorcontrol_set_on(MotorControlState *state) {
+    // if status shows on and state is on then do nothing
+    if (state->status & 0b10000000 && state->on || state->status == 0x00 && !state->on) {
+        return;
+    }
+
+
     if (xSemaphoreTake(wireMutex, portMAX_DELAY) == pdTRUE) {
         Wire.beginTransmission(0x20);
         Wire.write(0x12); // IODIRA register

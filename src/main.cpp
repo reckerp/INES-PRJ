@@ -8,6 +8,7 @@
 
 MotorControlState motorControlState = {
     .status = 0, .speed = 0, .direction = 0, .on = 0};
+SemaphoreHandle_t wireMutex = NULL; // This is the definition
 
 void setup() {
     Serial.begin(9600);

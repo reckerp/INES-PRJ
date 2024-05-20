@@ -1,5 +1,6 @@
 #include "IOReader.h"
 #include "MotorControlState.h"
+#include <Arduino.h>
 #include <Wire.h>
 
 void ioreader_task(void *parameter) {
@@ -19,6 +20,8 @@ void ioreader_task(void *parameter) {
 
         if(on) {
             state->on = !state->on;
+            Serial.print("Motor is ");
+            Serial.println(state->on ? "ON" : "OFF");
         }
 
         state->direction = direction;
@@ -28,6 +31,6 @@ void ioreader_task(void *parameter) {
             state->speed += 10;
         }
         
-        delay(10);
+        delay(100);
     }
 }
