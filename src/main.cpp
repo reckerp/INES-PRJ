@@ -7,7 +7,7 @@
 #include <Wire.h>
 
 MotorControlState motorControlState = {
-    .status = 0, .speed = 0, .direction = 0, .on = 0};
+    .status = 0x00, .speed = 0, .direction = 0, .on = 0};
 SemaphoreHandle_t wireMutex = NULL; // This is the definition
 
 void setup() {
