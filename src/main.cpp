@@ -1,8 +1,8 @@
+#include "Display.h"
 #include "Heartbeat.h"
 #include "IOReader.h"
 #include "MotorControl.h"
 #include "MotorControlState.h"
-#include "Display.h"
 #include "MutexDef.h"
 #include <Arduino.h>
 #include <Wire.h>
@@ -39,19 +39,19 @@ void setup() {
         Wire.begin();
         Wire.beginTransmission(0x20);
         Wire.write(0x00); // IODIRA register
-        Wire.write(0x00); // Set all of port A to outputs
+        Wire.write(0x00); // Set all of port A to outputs (0 meaning output)
         Wire.endTransmission();
 
         // DEFINE BANK B AS INPUTS
         Wire.beginTransmission(0x20);
         Wire.write(0x01); // IODIRB register
-        Wire.write(0xFF); // Set all of port B to inputs
+        Wire.write(0xFF); // Set all of port B to inputs (1 meaning input)
         Wire.endTransmission();
 
         // DEFINE PULLUP FOR BANK B PIN 0
         Wire.beginTransmission(0x20);
         Wire.write(0x0D); // GPPUB register
-        Wire.write(0x0F); // Set pullup for pin 0, 1, 2, 3
+        Wire.write(0x0F); // Set pullup for pin 0, 1, 2, 3 =>0b00001111 (BankB starts top with least significant bit)
         Wire.endTransmission();
         xSemaphoreGive(wireMutex);
     }
@@ -70,18 +70,8 @@ void setup() {
     // SETUP DISPLAY
     xTaskCreate(display_task, "display_task", 10000, &motorControlState, 1,
                 &display_taskhandle);
-
 }
 
 void loop() {
-    // READ BANK B PIN 0
-    Wire.beginTransmission(0x20);
-    Wire.write(0x13); // GPIOB register
-    Wire.endTransmission();
-    // Request PIN 0
-    Wire.requestFrom(0x20, 1);
-    byte bankB = Wire.read();
-    Serial.print("Bank B: ");
-    Serial.println(bankB, BIN);
     delay(1000);
 }

@@ -20,8 +20,6 @@ const int motChannel = 0;
 // AIN1 - 6
 // STBY - 5
 
-// CW - AIN1 HIGH, AIN2 LOW, STBY HIGH => 10100000 => 0xA0
-
 void motorcontrol_task(void *parameter) {
     Serial.println("[MOTORCONTROL] Starting motor control task");
     MotorControlState *state = (MotorControlState *)parameter;
@@ -39,31 +37,6 @@ void motorcontrol_task(void *parameter) {
         motorcontrol_set_speed(state);
         delay(10);
     }
-
-    // Wire.beginTransmission(0x20);
-    // Wire.write(0x12); // IODIRA register
-    // Wire.write((byte)0b10100000); // CW
-    // Wire.endTransmission();
-
-    // int count = 0;
-    // while(count < 10) {
-    //     Serial.print("Count: ");
-    //     Serial.println(count);
-    //     for (int i = 0; i < 255; i++) {
-    //         ledcWrite(motChannel, i);
-    //         vTaskDelay(100 / portTICK_PERIOD_MS);
-    //     }
-
-    //     for (int i = 255; i > 0; i--) {
-    //         ledcWrite(motChannel, i);
-    //         vTaskDelay(100 / portTICK_PERIOD_MS);
-    //     }
-    //     count++;
-    // }
-    // Wire.beginTransmission(0x20);
-    // Wire.write(0x12); // IODIRA register
-    // Wire.write(0x00); // Stop motor
-    // Wire.endTransmission();
 }
 
 void motorcontrol_set_speed(MotorControlState *state) {
@@ -140,7 +113,7 @@ void motorcontrol_set_on(MotorControlState *state) {
         if (state->on) {
             state->status |= 0b00100000; // Set only STBY HIGH
 
-            Wire.write((byte)state->status); // CW
+            Wire.write((byte)state->status); // Start motor
         } else {
             for (int i = state->speed; i >= 0; i = -50) {
                 ledcWrite(motChannel, i);
