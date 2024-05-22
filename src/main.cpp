@@ -2,6 +2,7 @@
 #include "IOReader.h"
 #include "MotorControl.h"
 #include "MotorControlState.h"
+#include "Display.h"
 #include "MutexDef.h"
 #include <Arduino.h>
 #include <Wire.h>
@@ -17,6 +18,7 @@ void setup() {
     TaskHandle_t heartbeat_taskhandle;
     TaskHandle_t motorcontrol_taskhandle;
     TaskHandle_t ioreader_taskhandle;
+    TaskHandle_t display_taskhandle;
 
     // -----------------------------------------------------------
     wireMutex = xSemaphoreCreateMutex();
@@ -63,6 +65,12 @@ void setup() {
     // SETUP MOTOR CONTROL
     xTaskCreate(motorcontrol_task, "motorcontrol_task", 10000,
                 &motorControlState, 2, &motorcontrol_taskhandle);
+
+    // -----------------------------------------------------------
+    // SETUP DISPLAY
+    xTaskCreate(display_task, "display_task", 10000, &motorControlState, 1,
+                &display_taskhandle);
+
 }
 
 void loop() {
