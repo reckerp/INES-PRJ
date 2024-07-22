@@ -13,4 +13,4 @@ This repository holds the code and resources for the mini project in the *Introd
   - Taking decisions and controlling outputs
 
 ## Setup
-![breadboard](https://imgur.com/a/c6pLubd)
+![breadboard](https://i.imgur.com/Ub0WK87.jpeg)
